@@ -50,7 +50,7 @@ public:
             for(int j = 0 ; j < 3 ; j++) {
                 board[i][j] = newBoard[i][j];
         }
-        id = getID();
+        createID();
         calculateManhattanScore();
         calculateOutOfPlaceScore();
         emptyPlace = getMovableTilePlace();
@@ -116,7 +116,7 @@ public:
         return manhattanScore;
     }
 
-    puzzleState moveDown(){                                                      // pointer or the object itself
+    puzzleState* moveDown(){                                                      // pointer or the object itself
 
         // check if possible
 
@@ -133,12 +133,14 @@ public:
             newBoard[emptyRow][emptyCol] = newBoard[emptyRow - 1][emptyCol];
             newBoard[emptyRow - 1][emptyCol] = 0;
             //newState.setEmptyPlace((3*(emptyRow-1)+(emptyCol+1)));
+            
         }
-         puzzleState newState(newBoard);
-        return newState;
+        puzzleState* newState = new puzzleState(newBoard);
+        if(newState->getID()!= id && emptyRow !=0){return newState;}
+        return NULL;
     }
 
-    puzzleState moveLeft(){
+    puzzleState* moveLeft(){
         // check if not possible retruns the old one
 
         int emptyRow = (emptyPlace -1)/ 3;
@@ -155,10 +157,11 @@ public:
             newBoard[emptyRow ][emptyCol+1] = 0;
             //newState.setEmptyPlace((3*(emptyRow)+(emptyCol+2)));
         }
-        puzzleState newState(newBoard);
-        return newState;
+		puzzleState* newState = new puzzleState(newBoard);
+        if(newState->getID() != id && emptyCol !=2){return newState;}
+        return NULL;
     }
-    puzzleState moveRight(){
+    puzzleState* moveRight(){
         // check if not possible retruns the old one
 
         int emptyRow = (emptyPlace -1)/ 3;
@@ -175,10 +178,11 @@ public:
             newBoard[emptyRow ][emptyCol-1] =0 ;
             //newState.setEmptyPlace((3*(emptyRow)+(emptyCol)));
         }
-         puzzleState newState(newBoard);
-        return newState;
+		puzzleState* newState = new puzzleState(newBoard);
+        if(newState->getID() != id && emptyCol != 0){return newState;}
+        return NULL;
     }
-    puzzleState moveUp(){
+    puzzleState* moveUp(){
         // check if not possible retruns the old one
 
         int emptyRow = (emptyPlace -1)/ 3;
@@ -194,31 +198,25 @@ public:
             newBoard[emptyRow][emptyCol] = newBoard[emptyRow+1][emptyCol];
             newBoard[emptyRow+1][emptyCol] = 0;
         }
-        puzzleState newState(newBoard);
-        return newState;
+		puzzleState* newState = new puzzleState(newBoard);
+        if(newState->getID() != id && emptyRow != 2){return newState;}
+        return NULL;
     }
 };
-
+/*
 int main() {
-    puzzleState p;
-    cout << p.getID() << endl;
-    p.displayBoard();
-    puzzleState p1, p2, p3;
-    cout << "mov: " << p.getMovableTilePlace() << endl;
 
+    puzzleState* init = new puzzleState();
+    puzzleState* step2 = init->moveDown();
+    step2->displayBoard();
 
-    p1 = p.moveDown();
-    cout << "p1's man sc: " << p1.getManhattanScore() << "p1's out sc:  "<< p1.getOutOfPlaceScore() << endl;
-    p1.displayBoard();
-
-    p2 = p1.moveRight();
-    cout << "p2's man sc: " << p2.getManhattanScore() <<"p2's out sc:  "<< p2.getOutOfPlaceScore() << endl;
-    p2.displayBoard();
-
-    p3 = p2.moveRight();
-    cout << "p3's man sc: " << p3.getManhattanScore() <<"p3's out sc:  "<< p3.getOutOfPlaceScore()<< endl;
-    p3.displayBoard();
+	puzzleState* step3 = step2->moveRight();
+	cout << (step3 == NULL);
+	//step3->displayBoard();
+	//puzzleState* step4 = step3->moveRight();
+	//step4->displayBoard();
 
     return 0;
 
 }
+*/

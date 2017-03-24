@@ -80,14 +80,3 @@ public:
 
 	}
 };
-
-
-
-int main() {
-	puzzleState* s;
-	Puzzle p;
-	s = p.generateInitialState();
-	s->displayBoard();
-
-    return 0;
-}
