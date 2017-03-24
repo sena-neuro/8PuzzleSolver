@@ -28,6 +28,8 @@ public:
                 board[i][j] = value;
                 value++;
             }
+        calculateManhattanScore();
+        calculateOutOfPlaceScore();
         board[2][2] = 0;
         id = 123456780;
         emptyPlace = 9;
@@ -39,6 +41,8 @@ public:
                 board[i][j] = id%10;
                 id /= 10;
             }
+        calculateManhattanScore();
+        calculateOutOfPlaceScore();
         emptyPlace = getMovableTilePlace();
     }
     puzzleState(int newBoard[3][3]) {
@@ -48,7 +52,9 @@ public:
         }
         id = getID();
         calculateManhattanScore();
+        calculateOutOfPlaceScore();
         emptyPlace = getMovableTilePlace();
+
     }
     //~puzzleState();
 
@@ -92,6 +98,18 @@ public:
                 else manhattanScore += ( abs(i-((board[i][j]-1)/3)) + abs(j-(((board[i][j]-1)%3) )));
             }
         }
+    }
+    void calculateOutOfPlaceScore(){
+    	outOfPlaceScore = 0;
+        for( int i = 0 ; i < 3 ; i++) {
+            for(int j = 0 ; j < 3 ; j++) {
+            	if(board[i][j] == 0 && 3*i+j+1 != 9){outOfPlaceScore++;}
+            	else if(board[i][j] != 3*i+j+1){outOfPlaceScore++;}//  i*3+j-1
+            }
+        }   
+    }
+    int getOutOfPlaceScore() {
+        return outOfPlaceScore;
     }
 
     int getManhattanScore() {
@@ -190,15 +208,15 @@ int main() {
 
 
     p1 = p.moveDown();
-    cout << "p1's man sc: " << p1.getManhattanScore() << endl;
+    cout << "p1's man sc: " << p1.getManhattanScore() << "p1's out sc:  "<< p1.getOutOfPlaceScore() << endl;
     p1.displayBoard();
 
     p2 = p1.moveRight();
-    cout << "p2's man sc: " << p2.getManhattanScore() << endl;
+    cout << "p2's man sc: " << p2.getManhattanScore() <<"p2's out sc:  "<< p2.getOutOfPlaceScore() << endl;
     p2.displayBoard();
 
     p3 = p2.moveRight();
-    cout << "p3's man sc: " << p3.getManhattanScore() << endl;
+    cout << "p3's man sc: " << p3.getManhattanScore() <<"p3's out sc:  "<< p3.getOutOfPlaceScore()<< endl;
     p3.displayBoard();
 
     return 0;
