@@ -5,7 +5,6 @@ using namespace std;
 class puzzleState {
 
 private:
-    int board[3][3];
     int id;
     int emptyPlace;
     int manhattanScore;
@@ -21,6 +20,7 @@ private:
             }
     }
 public:
+	int board[3][3];
     puzzleState() {
         int value = 1 ;
         for(int i = 0 ; i < 3 ; i++)
@@ -49,7 +49,7 @@ public:
         for(int i = 0 ; i < 3 ; i++)
             for(int j = 0 ; j < 3 ; j++) {
                 board[i][j] = newBoard[i][j];
-        }
+        	}
         createID();
         calculateManhattanScore();
         calculateOutOfPlaceScore();
@@ -58,12 +58,12 @@ public:
     }
     //~puzzleState();
 
-    int getID() {
+    int getID() const{
         return id;
     }
 
 
-    void displayBoard() {
+    void displayBoard() const{
         cout << "-------" << endl;
         for(int i = 0 ; i < 3 ; i++) {
             for(int j = 0 ; j < 3 ; j++) {
@@ -77,7 +77,7 @@ public:
         emptyPlace = place;
     }
 
-    int getMovableTilePlace() {
+    int getMovableTilePlace() const{
         for(int i = 0 ; i < 3 ; i++)
             for(int j = 0 ; j < 3 ; j++)
                 if( board[i][j] == 0)
@@ -108,15 +108,15 @@ public:
             }
         }   
     }
-    int getOutOfPlaceScore() {
+    int getOutOfPlaceScore() const{
         return outOfPlaceScore;
     }
 
-    int getManhattanScore() {
+    int getManhattanScore() const{
         return manhattanScore;
     }
 
-    puzzleState* moveDown(){                                                      // pointer or the object itself
+    puzzleState* moveDown()const{                                                      // pointer or the object itself
 
         // check if possible
 
@@ -140,7 +140,7 @@ public:
         return NULL;
     }
 
-    puzzleState* moveLeft(){
+    puzzleState* moveLeft()const{
         // check if not possible retruns the old one
 
         int emptyRow = (emptyPlace -1)/ 3;
@@ -161,7 +161,7 @@ public:
         if(newState->getID() != id && emptyCol !=2){return newState;}
         return NULL;
     }
-    puzzleState* moveRight(){
+    puzzleState* moveRight() const{
         // check if not possible retruns the old one
 
         int emptyRow = (emptyPlace -1)/ 3;
@@ -182,7 +182,7 @@ public:
         if(newState->getID() != id && emptyCol != 0){return newState;}
         return NULL;
     }
-    puzzleState* moveUp(){
+    puzzleState* moveUp() const{
         // check if not possible retruns the old one
 
         int emptyRow = (emptyPlace -1)/ 3;
@@ -201,22 +201,21 @@ public:
 		puzzleState* newState = new puzzleState(newBoard);
         if(newState->getID() != id && emptyRow != 2){return newState;}
         return NULL;
+
     }
+    void operator=( puzzleState &p){ // getters const -> const puzSt ...
+
+    	
+        for(int i = 0 ; i < 3 ; i++)
+            for(int j = 0 ; j < 3 ; j++)
+                board[i][j] = p.board[i][j];
+    	
+    	id = p.getID();
+    	emptyPlace = p.getMovableTilePlace();
+    	manhattanScore = p.getManhattanScore();
+    	outOfPlaceScore = p.getOutOfPlaceScore();
+
+    } 
+
+
 };
-/*
-int main() {
-
-    puzzleState* init = new puzzleState();
-    puzzleState* step2 = init->moveDown();
-    step2->displayBoard();
-
-	puzzleState* step3 = step2->moveRight();
-	cout << (step3 == NULL);
-	//step3->displayBoard();
-	//puzzleState* step4 = step3->moveRight();
-	//step4->displayBoard();
-
-    return 0;
-
-}
-*/
