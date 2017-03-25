@@ -30,8 +30,8 @@ public:
             }
         calculateManhattanScore();
         calculateOutOfPlaceScore();
-        board[2][2] = 0;
-        id = 123456780;
+        board[2][2] = 9;
+        id = 123456789;
         emptyPlace = 9;
     }
 
@@ -67,7 +67,8 @@ public:
         cout << "-------" << endl;
         for(int i = 0 ; i < 3 ; i++) {
             for(int j = 0 ; j < 3 ; j++) {
-                cout  << " " << board[i][j];
+            	if( board[i][j] == 9) cout << "  " ;
+                else cout  << " " << board[i][j];
             }
             cout << endl;
         }
@@ -80,7 +81,7 @@ public:
     int getMovableTilePlace() const{
         for(int i = 0 ; i < 3 ; i++)
             for(int j = 0 ; j < 3 ; j++)
-                if( board[i][j] == 0)
+                if( board[i][j] == 9)
                     return (3*i + j + 1) ;
     }
 
@@ -94,7 +95,7 @@ public:
         manhattanScore = 0 ;
         for( int i = 0 ; i < 3 ; i++) {
             for(int j = 0 ; j < 3 ; j++) {
-                if( board[i][j] == 0 ) manhattanScore += 4 - (i + j);
+                if( board[i][j] == 9 ) manhattanScore += 4 - (i + j);
                 else manhattanScore += ( abs(i-((board[i][j]-1)/3)) + abs(j-(((board[i][j]-1)%3) )));
             }
         }
@@ -103,7 +104,7 @@ public:
     	outOfPlaceScore = 0;
         for( int i = 0 ; i < 3 ; i++) {
             for(int j = 0 ; j < 3 ; j++) {
-            	if(board[i][j] == 0 && 3*i+j+1 != 9){outOfPlaceScore++;}
+            	if(board[i][j] == 9 && 3*i+j+1 != 9){outOfPlaceScore++;}
             	else if(board[i][j] != 3*i+j+1){outOfPlaceScore++;}//  i*3+j-1
             }
         }   
@@ -131,11 +132,12 @@ public:
 
         if(emptyRow != 0){
             newBoard[emptyRow][emptyCol] = newBoard[emptyRow - 1][emptyCol];
-            newBoard[emptyRow - 1][emptyCol] = 0;
+            newBoard[emptyRow - 1][emptyCol] = 9;
             //newState.setEmptyPlace((3*(emptyRow-1)+(emptyCol+1)));
             
         }
         puzzleState* newState = new puzzleState(newBoard);
+        //cout << newState->getMovableTilePlace() << endl;
         if(newState->getID()!= id && emptyRow !=0){return newState;}
         return NULL;
     }
@@ -154,7 +156,7 @@ public:
         if(emptyCol!= 2){
 
             newBoard[emptyRow][emptyCol] = newBoard[emptyRow][emptyCol+1];
-            newBoard[emptyRow ][emptyCol+1] = 0;
+            newBoard[emptyRow ][emptyCol+1] = 9;
             //newState.setEmptyPlace((3*(emptyRow)+(emptyCol+2)));
         }
 		puzzleState* newState = new puzzleState(newBoard);
@@ -175,7 +177,7 @@ public:
         if(emptyCol!= 0){
 
             newBoard[emptyRow][emptyCol] = newBoard[emptyRow][emptyCol-1];
-            newBoard[emptyRow ][emptyCol-1] =0 ;
+            newBoard[emptyRow ][emptyCol-1] =9 ;
             //newState.setEmptyPlace((3*(emptyRow)+(emptyCol)));
         }
 		puzzleState* newState = new puzzleState(newBoard);
@@ -196,14 +198,14 @@ public:
         if(emptyRow!= 2){
 
             newBoard[emptyRow][emptyCol] = newBoard[emptyRow+1][emptyCol];
-            newBoard[emptyRow+1][emptyCol] = 0;
+            newBoard[emptyRow+1][emptyCol] = 9	;
         }
 		puzzleState* newState = new puzzleState(newBoard);
         if(newState->getID() != id && emptyRow != 2){return newState;}
         return NULL;
 
     }
-    void operator=( puzzleState &p){ // getters const -> const puzSt ...
+    void operator=( const puzzleState p){ // getters const -> const puzSt ...
 
     	
         for(int i = 0 ; i < 3 ; i++)
@@ -219,3 +221,27 @@ public:
 
 
 };
+/*
+int main() {
+	puzzleState p(912345678);
+	puzzleState* p1,*p2,*p3,*p4;
+	p.displayBoard();
+	/*
+	puzzleState p(102345678);
+	puzzleState p(120345678);
+	puzzleState p(123045678);
+	puzzleState p(123405678);
+	puzzleState p(123450678);
+	puzzleState p(123456078);
+	puzzleState p(123456708);
+	puzzleState p(123456780);
+	p1 = p.moveLeft();
+	p1->displayBoard();
+	//p2 = p.moveRight();
+	//p2->displayBoard();
+	p3 = p.moveUp();
+	p3->displayBoard();
+	//p4 = p.moveDown();
+	//p4->displayBoard();
+
+*/

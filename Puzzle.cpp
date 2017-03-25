@@ -83,39 +83,36 @@ public:
 		priority_queue<puzzleState, vector<puzzleState>, ManhattonScoreComp> queue;
 
 		puzzleState* temp;
+		puzzleState cur;
 		queue.push(*start);
 
 		while(queue.top().getManhattanScore() != 0 && !queue.empty()){
+			cur = queue.top();
 
-			temp = queue.top().moveDown();
+			temp = cur.moveDown();
 			if(temp != NULL && !isVisited(temp->getID())){
 				queue.push(*temp);
 				visitedIDs.push_back(temp->getID());
-				cout << "pushed... the state with man score " << temp->getManhattanScore() << endl;
-				//temp->displayBoard();
+
 			}
 
-			temp = queue.top().moveUp();
+			temp = cur.moveUp();
 			if(temp != NULL && !isVisited(temp->getID())){
 				queue.push(*temp);
 				visitedIDs.push_back(temp->getID());
-				cout << "pushed... the state with man score " << temp->getManhattanScore() << endl;
-				//temp->displayBoard();				
+		
 			}
 
-			temp = queue.top().moveLeft();
+			temp = cur.moveLeft();
 			if(temp != NULL&& !isVisited(temp->getID())){
 				queue.push(*temp);
 				visitedIDs.push_back(temp->getID());
-				cout << "pushed... the state with man score " << temp->getManhattanScore() << endl;
-				//temp->displayBoard();
+
 			}
-			temp = queue.top().moveRight();
+			temp = cur.moveRight();
 			if(temp != NULL && !isVisited(temp->getID())){
 				queue.push(*temp);
 				visitedIDs.push_back(temp->getID());
-				cout << "pushed... the state with man score " << temp->getManhattanScore() << endl;
-				//temp->displayBoard();
 			}
 			if(! (	queue.top().moveUp() != NULL   && !isVisited(queue.top().moveUp()->getID() ) ||
 					queue.top().moveDown() != NULL && !isVisited(queue.top().moveDown()->getID() ) ||
@@ -123,7 +120,7 @@ public:
 					queue.top().moveRight() != NULL && !isVisited(queue.top().moveRight()->getID() ) ) )
 				queue.pop();
 		}
-		cout << "empty? "<< queue.empty() << endl;
+		//cout << "empty? "<< queue.empty() << endl;
 		queue.top().displayBoard();
 		visitedIDs.clear();
 		return;
@@ -146,7 +143,9 @@ public:
 int main() {
 	puzzleState* ps;
 	Puzzle p;
+
 	ps = p.generateInitialState();
+
 	ps->displayBoard();
 
 	p.solveWithManhattanDistance(ps);
