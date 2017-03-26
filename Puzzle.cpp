@@ -86,12 +86,11 @@ public:
 		puzzleState cur;
 		queue.push(*start);
 		int noOfMoves = 0;
+		int noOfClosedNodes = 0;
 
 		while(queue.top().getManhattanScore() != 0 && !queue.empty()){
 			cur = queue.top();
 			cur.displayBoard();
-
-			noOfMoves++;
 
 			temp = cur.moveDown();
 			if(temp != NULL && !isVisited(temp->getID())){
@@ -123,10 +122,12 @@ public:
 					queue.top().moveLeft() != NULL && !isVisited(queue.top().moveLeft()->getID() ) ||
 					queue.top().moveRight() != NULL && !isVisited(queue.top().moveRight()->getID() ) ) )
 				queue.pop();
+			noOfClosedNodes++;
 
 		}
 		queue.top().displayBoard();
-		cout << "Number of moves: " << noOfMoves << endl;
+		cout << "Number of closed nodes: " << noOfClosedNodes << endl;
+		cout << "Number of moves: " << visitedIDs.size() << endl;
 		visitedIDs.clear();
 		return;
 	}
@@ -139,6 +140,7 @@ public:
 		puzzleState cur;
 		queue.push(*start);
 		int noOfMoves = 0;
+		int noOfClosedNodes = 0;
 
 		while(queue.top().getOutOfPlaceScore() != 0 && !queue.empty()){
 			cur = queue.top();
@@ -174,10 +176,11 @@ public:
 					queue.top().moveLeft() != NULL && !isVisited(queue.top().moveLeft()->getID() ) ||
 					queue.top().moveRight() != NULL && !isVisited(queue.top().moveRight()->getID() ) ) )
 				queue.pop();
-            noOfMoves++;
+            noOfClosedNodes++;
 		}
 		queue.top().displayBoard();
-		cout << "Number of moves: " << noOfMoves << endl;
+		cout << "Number of closed nodes: " << noOfClosedNodes << endl;
+		cout << "Number of moves: " << visitedIDs.size() << endl;
 		visitedIDs.clear();
 		return;
 	}
