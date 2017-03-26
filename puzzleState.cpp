@@ -1,5 +1,6 @@
 #include <iostream>
 #include <cmath>
+#include <fstream>
 
 using namespace std;
 class puzzleState {
@@ -64,7 +65,6 @@ public:
 
 
     void displayBoard() const{
-        cout << "-------" << endl;
         for(int i = 0 ; i < 3 ; i++) {
             for(int j = 0 ; j < 3 ; j++) {
             	if( board[i][j] == 9) cout << "  " ;
@@ -72,7 +72,7 @@ public:
             }
             cout << endl;
         }
-        cout << "-------" << endl;
+        cout << endl;
     }
     void setEmptyPlace(int place){
         emptyPlace = place;
@@ -107,7 +107,7 @@ public:
             	if(board[i][j] == 9 && 3*i+j+1 != 9){outOfPlaceScore++;}
             	else if(board[i][j] != 3*i+j+1){outOfPlaceScore++;}//  i*3+j-1
             }
-        }   
+        }
     }
     int getOutOfPlaceScore() const{
         return outOfPlaceScore;
@@ -134,7 +134,7 @@ public:
             newBoard[emptyRow][emptyCol] = newBoard[emptyRow - 1][emptyCol];
             newBoard[emptyRow - 1][emptyCol] = 9;
             //newState.setEmptyPlace((3*(emptyRow-1)+(emptyCol+1)));
-            
+
         }
         puzzleState* newState = new puzzleState(newBoard);
         //cout << newState->getMovableTilePlace() << endl;
@@ -207,41 +207,17 @@ public:
     }
     void operator=( const puzzleState p){ // getters const -> const puzSt ...
 
-    	
+
         for(int i = 0 ; i < 3 ; i++)
             for(int j = 0 ; j < 3 ; j++)
                 board[i][j] = p.board[i][j];
-    	
+
     	id = p.getID();
     	emptyPlace = p.getMovableTilePlace();
     	manhattanScore = p.getManhattanScore();
     	outOfPlaceScore = p.getOutOfPlaceScore();
 
-    } 
+    }
 
 
 };
-/*
-int main() {
-	puzzleState p(912345678);
-	puzzleState* p1,*p2,*p3,*p4;
-	p.displayBoard();
-	/*
-	puzzleState p(102345678);
-	puzzleState p(120345678);
-	puzzleState p(123045678);
-	puzzleState p(123405678);
-	puzzleState p(123450678);
-	puzzleState p(123456078);
-	puzzleState p(123456708);
-	puzzleState p(123456780);
-	p1 = p.moveLeft();
-	p1->displayBoard();
-	//p2 = p.moveRight();
-	//p2->displayBoard();
-	p3 = p.moveUp();
-	p3->displayBoard();
-	//p4 = p.moveDown();
-	//p4->displayBoard();
-
-*/
